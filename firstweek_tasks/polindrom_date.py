@@ -1,61 +1,53 @@
-from datetime import datetime, timedelta
-import datedelta
-import datetime
+MAX_VALID_YR = 9999
+MIN_VALID_YR = 1800
+polindrom = []
+next_polin_year=0
+years =0
+y1 = 2133
+y2 = 2140
+def isLeap(year):
 
-def checkIfPalindrome(string):
-    length = len(string)
-    even = length%2==0
+    return (((year % 4 == 0) and (year % 100 != 0)) or (year % 400 == 0))
 
-    for i in range(int(length/2)):
-        if string[i] != string[length-1 - i]:
-            return False
+def isValidDate(d, m, y):
+    if (y > MAX_VALID_YR or y < MIN_VALID_YR):
+        return False
+    if (m < 1 or m > 12):
+        return False
+    if (d < 1 or d > 31):
+        return False
+    if (m == 2):
+        if (isLeap(y)):
+            return (d <= 29)
+        else:
+            return (d <= 28)
+    if (m == 4 or m == 6 or m == 9 or m == 11):
+        return (d <= 30)
+ 
     return True
-
-def checkIfNumericPalindrome(number):
-    return checkIfPalindrome(str(number))
-
-def checkIfDateIsPalindrome(date):
-    # day - month - year, no 0 padding
-    if checkIfPalindrome('{d.day}{d.month}{d.year}'.format(d=date)):
-        return True, '{d.day}/{d.month}/{d.year}'
-    # day - month - year, only month 0 padding
-    elif checkIfPalindrome('{d.day}{d.month:02}{d.year}'.format(d=date)):
-        return True, '{d.day}/{d.month:02}/{d.year}'
-    # day - month - year, both 0 padding
-    elif checkIfPalindrome('{d.day:02}{d.month:02}{d.year}'.format(d=date)):
-        return True, '{d.day:02}/{d.month:02}/{d.year}'
-    
-    # month - day - year, no 0 padding
-    elif checkIfPalindrome('{d.month}{d.day}{d.year}'.format(d=date)):
-        return True, '{d.month}/{d.day}/{d.year}'
-    # month - day - year, only day 0 padding
-    elif checkIfPalindrome('{d.month}{d.day:02}{d.year}'.format(d=date)):
-        return True, '{d.month}/{d.day:02}/{d.year}'
-    # month - day - year, both 0 padding
-    elif checkIfPalindrome('{d.month:02}{d.day:02}{d.year}'.format(d=date)):
-        return True, '{d.month:02}/{d.day:02}/{d.year}'
+ 
+def printPalindromeDates(y1, y2):
+    for year in range(y1, y2 + 1,1):
+        str1 = str(year)
+        rev = str1
+        rev = rev[::-1]
+        day = int(rev[0 : 2])
+        month = int(rev[2 : 4])
+        rev += str1
+        if (isValidDate(day, month, year)):
+            print(rev)   
+            polindrom.append(rev)
+    if len(polindrom)>1:
+        next_polin_year = polindrom[1]
+        years =int(next_polin_year[4:8])
+        print(f'{y1} -ilinden', years-y1 , f'il sonra novbeti polindrom tarix {next_polin_year}')
     else:
-        return False, ''
+        next_polin_year = polindrom[0]
+        years =int(next_polin_year[4:8])
+        print(f'{y1} -ilinden', years-y1 , f'il sonra novbeti polindrom tarix {next_polin_year}')
+  
+            
+printPalindromeDates(y1, y2)
 
 
-def getNextPalindromeDate(date):
-    isPalindrome = False
-    while not isPalindrome:
-        date += timedelta(days=1)
-        isPalindrome, dateformat = checkIfDateIsPalindrome(date)
-    return dateformat.format(d=date), dateformat
 
-
-       
-def getNextPalindromeYear(date):
-    isPalindrome = False
-    while not isPalindrome:
-        date += datedelta.YEAR
-        isPalindrome, dateformat = checkIfDateIsPalindrome(date)
-    return dateformat.format(d=date), dateformat
-
-# Testing
-
-# delta = datetime.datetime.now()
-date = datetime.datetime(2022,2,2)
-print(date)

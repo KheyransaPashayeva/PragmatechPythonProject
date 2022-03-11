@@ -17,10 +17,10 @@ class Post(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
     views = models.IntegerField(blank=True, null=True, default=0)
 
-    # class Meta:
-    #     verbose_name = 'Post'
-    #     verbose_name_plural = 'Posts'
-    #     ordering = ('-published_date')
+    class Meta:
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posts'
+        ordering = ('-published_date', )
 
-    # def __str__(self):
-    #     return f'{self.author}\'s Post -{self.title}'
+    def __str__(self):
+        return f'{self.author}\'s Post -{self.title}'

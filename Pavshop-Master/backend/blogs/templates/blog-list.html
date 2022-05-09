@@ -44,7 +44,14 @@
                   <!-- Post Content -->
                   <div class="text-left">
                     <p>{{blog.description}}</p>
-                    <a href="{{blog.get_absolute_url}}" class="red-more">READ MORE</a> </div>
+                    <a href="{{blog.get_absolute_url}}" class="red-more">READ MORE</a> 
+
+                    <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="post_id" value="{{post_id}}">
+                      <input type="submit" class="btn btn-primary" value="Like">
+                    </form>
+                  </div>
                 </div>
               </div>
             </article>
@@ -52,11 +59,19 @@
             
             <!-- Pagination -->
             <ul class="pagination in-center">
-              <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+              {% if current_page is not previous_page %}
+              <li><a href="?page={{previous_page}}"><i class="fa fa-angle-left"></i></a></li>
+              {% endif %}
+              {% for page in page_range %}
+                {% if page is current_page  %}
+                <li><a style="background-color: yellow; color:black">{{page}}</a></li>
+                {% else %}
+                <li><a href="?page={{page}}">{{page}}</a></li>
+                {% endif %}
+              {% endfor %}  
+              {% if current_page is not next_page %}
+              <li><a href="?page={{next_page}}"><i class="fa fa-angle-right"></i></a></li>
+              {% endif %}
             </ul>
           </div>
           

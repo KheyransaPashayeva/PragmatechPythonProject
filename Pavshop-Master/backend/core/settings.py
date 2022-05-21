@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index',
     'accounts',
-    'blogs'
+    'blogs',
+    'products',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     'accounts.middleware.BlackListMiddleWare',
 ]
 
@@ -67,6 +69,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends', 
+                'social_django.context_processors.login_redirect', 
             ],
         },
     },
@@ -109,6 +113,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '746858493445-d0kk1opm4f7rdk9ebtav7jm7l4bjb0t5.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_FACEBOOK_KEY = '534718231630038'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'b4c6113aafabb36650dd66c98f315ffd'
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

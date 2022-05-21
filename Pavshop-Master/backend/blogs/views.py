@@ -42,9 +42,10 @@ def blog_detail(request,slug):
       )
         return redirect ('/')
     comments = blog.comments.all()
+    count = blog.comments.count()
     context = {'blog': blog,
                'comments': comments,
-            #    'post': blog.comments.all()
+               'count': count
     }
     return render(request, 'blog-detail.html', context)
 

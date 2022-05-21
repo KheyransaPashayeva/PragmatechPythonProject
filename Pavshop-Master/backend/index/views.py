@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from .models import Contact
+from django.views.generic.base import TemplateView
 # Create your views here.
-def home(request):
-    return render(request, 'index.html')
+class HomeView(TemplateView):
+  template_name = 'index.html'
 
 
-def about(request):
-    return render(request, 'about-us.html')
+class AboutView(TemplateView):
+  template_name = 'about-us.html'
 
 
 def contact(request):
